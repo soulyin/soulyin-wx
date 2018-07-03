@@ -1,0 +1,105 @@
+/**index.wxss**/
+
+.index-page {
+}
+
+
+
+/*搜索框  */
+
+.input-search {
+  width: 550rpx;
+  height: 80rpx;
+  display: block;
+  margin: 120rpx auto 0;
+  border: 1px solid #ddd;
+  font-size: 30rpx;
+  padding: 0 25rpx;
+}
+
+/*搜索相关  */
+
+.search-relation {
+  width: 600rpx;
+  min-height: 120rpx;
+  text-align: center;
+}
+
+.search-relation.recent, .search-relation.hot {
+  margin: 74rpx auto 0;
+}
+
+.search-relation .title {
+  font-size: 28rpx;
+  color: #999;
+}
+
+.search-relation .list {
+  font-size: 30rpx;
+  text-align: center;
+}
+
+.search-relation .list .song {
+  display: block;
+}
+
+
+/* 前往授权弹窗的提示 modal */
+
+.auth-modal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  transition: 0.3s;
+}
+
+.auth-modal-main {
+  width: 72%;
+  height: 340rpx;
+  border-radius: 8rpx;
+  background: #fff;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.auth-modal-header {
+  height: 100rpx;
+  border-bottom: 1rpx solid #ddd;
+  line-height: 100rpx;
+  text-align: center;
+  font-size: 18px;
+}
+
+.auth-modal-body {
+  min-height: 140rpx;
+  text-align: center;
+  padding: 10rpx 15rpx;
+}
+
+.auth-modal-footer {
+  height: 100rpx;
+  border-top: 1px solid #ddd;
+}
+
+.ok {
+  background: #fff;
+  line-height: 100rpx;
+  -webkit-tap-highlight-color: red;
+  border-radius: 0 0 8rpx 8rpx;
+  color: #108ee9;
+  font-size: 40rpx;
+}
+
+.ok::after {
+  border: none;
+  border-radius: 0 0 8rpx 8rpx;
+}
+
+.ok-hover {
+  background: #ddd;
+}

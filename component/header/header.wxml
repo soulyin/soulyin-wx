@@ -1,0 +1,5 @@
+<!--component/header/header.wxml-->
+<view class='theme-bg header'>
+  <view class='{{selected === "搜索" ? "search btn selected":"search btn" }}' bindtap='toHome'>搜索</view>
+  <view class='{{selected === "我的" ? "search btn selected":"search btn" }}' bindtap='toMy'>我的</view>
+</view>

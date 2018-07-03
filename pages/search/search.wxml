@@ -1,0 +1,16 @@
+<view class='search-input theme-bg'>
+  <input placeholder='搜索歌曲' value='{{ searchVal }}'></input>
+  <view class='cancel-btn'>{{ btnName }}</view>
+</view>
+
+<scroll-view class='search-body'>
+  <view class='search-result'>搜索结果</view>
+
+  <scroll-view class='song-list' scroll-y='{{ true }}'>
+    <sy-song-item wx:for='{{ songList }}' wx:key='{{ item.name }}' songName='{{ item.name }}' songAuthors='{{ item.artists }}' songId='{{  item.id }}' bind:tapSong='tapSong'></sy-song-item>
+  </scroll-view>
+</scroll-view>
+
+
+<!--播放栏  -->
+<sy-play-bar playStatus='{{ playStatus }}' bind:play='play' bind:stop='stop'></sy-play-bar>

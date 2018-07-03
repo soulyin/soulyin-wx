@@ -1,0 +1,14 @@
+/**app.wxss**/
+@import "./assets/iconfont.wxss";
+
+.container {
+  height: 100%;
+} 
+view {
+  box-sizing: border-box;
+  font-size: 36rpx;
+}
+.theme-bg {
+  background: #514C4C;
+  color: #fff;
+}

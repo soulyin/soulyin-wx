@@ -1,0 +1,41 @@
+
+@import '../../assets/iconfont.wxss';
+.play-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 120rpx;
+  line-height: 120rpx;
+  display: flex;
+  flex-direction: 'row';
+  justify-content: space-around;
+  align-items: center;
+  background: #514c4c;
+  color: #fff;
+}
+
+.play-bar .song-img {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+}
+
+.play-bar .song-info {
+  width: 450rpx;
+}
+
+.play-bar .song-info .name {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.play-bar .song-info .name {
+  font-size: 34rpx;
+}
+
+.play-bar .icon-play {
+  font-size: 60rpx;
+}

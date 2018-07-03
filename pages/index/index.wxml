@@ -1,0 +1,44 @@
+<view class='container index-page'>
+
+  <sy-header selected='搜索' bind:myTap='toMy'></sy-header>
+
+  <input type='text' class='input-search' bindinput='bindKeyInput' bindconfirm='toSearch' placeholder='搜索歌曲'></input>
+  <!--最近搜索  -->
+  <view class='search-relation recent'>
+    <text class='title'>最近搜索</text>
+    <view class='list'>
+      <text class='song' wx:for="{{ recentList }}">{{item}}</text>
+    </view>
+  </view>
+
+  <!--热门搜索  -->
+  <view class='search-relation hot'>
+    <text class='title'>热门搜索</text>
+    <view class='list'>
+      <text class='song' wx:for="{{ hotList }}">{{item}}</text>
+    </view>
+  </view>
+
+
+  <!--播放栏  -->
+  <sy-play-bar playStatus='{{ playStatus }}' bind:play='play' bind:stop='stop'></sy-play-bar>
+
+
+
+  <!-- 前往授权弹窗的提示 modal -->
+  <view wx:if='{{ !isAuth && isAuthModalVisible }}' class='auth-modal'>
+    <view class='auth-modal-main'>
+      <view class='auth-modal-header'>
+        提示
+      </view>
+      <view class='auth-modal-body'>
+        为了更好的体验 将进行用户信息授权
+      </view>
+      <view class='auth-modal-footer'>
+        <button class='ok' hover-class='ok-hover' open-type='getUserInfo' bindgetuserinfo='bindGetUserInfo'>
+          前往
+        </button>
+      </view>
+    </view>
+  </view>
+</view>

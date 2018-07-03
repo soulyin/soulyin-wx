@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "sy-play-bar": "../../component/play-bar/play-bar",
+    "sy-song-item": "../../component/song-item/song-item"
+  }
+}

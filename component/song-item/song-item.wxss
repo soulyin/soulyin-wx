@@ -1,0 +1,32 @@
+@import '../../assets/iconfont.wxss';
+
+.song-item {
+  width: 720rpx;
+  height: 100rpx;
+  margin: 0 auto;
+  border-top: 1px solid #c9c9c9;
+  position: relative;
+}
+
+.song-name {
+  font-size: 28rxp;
+  color: #494949;
+}
+
+.song-author {
+  font-size: 24rpx;
+  color: #494949;
+}
+
+.song-name, .song-author {
+  width: 600rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.icon-play {
+  position: absolute;
+  right: 0;
+  top: 32rpx;
+}
