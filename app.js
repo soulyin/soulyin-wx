@@ -12,12 +12,12 @@ App({
     duration: 0, // 当前音频长度（单位：s）
     currentTime: 0, // 当前音频的播放位置（单位：s）
     src: '', // 音频地址
-    title: '', // 音频标题
+    title: '好听的音乐', // 音频标题
     epname: '', // 专辑名
     singer: '', // 歌手名
     coverImgUrl: '', // 封面图
 
-    sVal: '' // 搜索值
+    searchVal: '' // 搜索值
   },
 
 })

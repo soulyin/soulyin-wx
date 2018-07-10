@@ -1,7 +1,7 @@
 <view class='song-item' bindtap='tapSong'>
   <view class='song-detail'>
     <view class='song-name'>{{ songName }}</view>
-    <view wx:for='{{ songAuthors }}' class='song-author'></view>
+    <text wx:for='{{ songAuthors }}' class='song-author'>{{ item.name }}</text>
   </view>
   <view class='iconfont icon-play item' bindtap='play'></view>
 </view>

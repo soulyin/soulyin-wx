@@ -5,7 +5,8 @@ const baseUrl = httpConfig.baseUrl;
 
 //index.js
 //获取应用实例
-const app = getApp()
+const app = getApp();
+const g = app.globalData;
 
 Page({
   onReady: function(e) {
@@ -27,16 +28,16 @@ Page({
     }
   },
   data: {
-    APP: app,
-    motto: 'Hello soul音~~~',
     userInfo: {},
     hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo'),
     isAuth: true,
     isAuthModalVisible: true,
     recentList: ['Give me your love', '大千世界', 'Masked', 'aLiez'],
     hotList: ['大千世界', 'How You\'ve Been', 'Happier', '答案'],
-    playStatus: app.globalData.playStatus
+
+    playStatus: g.playStatus,
+    coverImgUrl: g.coverImgUrl,
+    title: g.title,
   },
   //事件处理函数
   bindViewTap: function() {
@@ -178,21 +179,29 @@ Page({
     this.setData({
       playStatus: 'play'
     });
-    app.globalData.playStatus = 'play';
+    g.playStatus = 'play';
+    g.audio.play();
   },
   stop() {
     this.setData({
       playStatus: 'stop'
     });
-    app.globalData.playStatus = 'stop';
-    app.globalData.audio.pause();
+    g.playStatus = 'stop';
+    g.audio.pause();
   },
   bindKeyInput(e) {
-    app.globalData.sVal = e.detail.value;
+    g.searchVal = e.detail.value;
   },
   toSearch() {
     wx.navigateTo({
       url: '../search/search'
     })
-  }
+  },
+  onShow: function() {
+    this.setData({
+      playStatus: g.playStatus,
+      coverImgUrl: g.coverImgUrl,
+      title: g.title
+    })
+  },
 })

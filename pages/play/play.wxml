@@ -1,0 +1,4 @@
+<view style='background-image: url("{{ coverImgUrl }}")' class='bg-img'></view>
+<view class='page-play'>
+  <image src='{{coverImgUrl}}' class='song-img'></image>
+</view>

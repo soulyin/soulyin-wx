@@ -1,0 +1,41 @@
+.bg-img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-size: 100% 100%;
+  filter: blur(20px);
+}
+.page-play {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+}
+
+.song-img {
+  position: absolute;
+  top: 260rpx;
+  left: 122rpx;
+  border: 1px solid #000;
+  width: 500rpx;
+  height: 500rpx;
+  border-radius: 50%;
+  filter: blur(10px);
+  animation: 30s rotate infinite linear;
+  z-index: 1000;
+  
+}
+
+@keyframes rotate {
+  from {
+    transform: rotateZ(0);
+  }
+
+  to {
+    transform: rotateZ(360deg);
+  }
+}

@@ -1,8 +1,8 @@
-<view class='play-bar'>
-  <image src='{{imgUrl}}' class='song-img'></image>
+<view class='play-bar' bind:tap='toPlay'>
+  <image src='{{coverImgUrl}}' class='song-img'></image>
   <view class='song-info item'>
-    <view class='name'>{{songName}}</view>
+    <view class='name'>{{title}}</view>
   </view>
-  <view wx:if='{{ playStatus === "stop" }}' class='iconfont icon-play item' bindtap='play'></view>
-  <view wx:elif='{{ playStatus === "play" }}' class='iconfont icon-stop item stop' bindtap='stop'></view>
+  <view wx:if='{{ playStatus === "stop" }}' class='iconfont icon-play item' catch:tap='play'></view>
+  <view wx:elif='{{ playStatus === "play" }}' class='iconfont icon-stop item stop' catch:tap='stop'></view>
 </view>

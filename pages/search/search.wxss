@@ -41,3 +41,6 @@ input {
   color: #555;
   margin: 20rpx 0 0 30rpx;
 }
+.no-song-tip {
+  text-align: center;
+}
