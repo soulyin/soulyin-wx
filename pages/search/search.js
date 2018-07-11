@@ -1,5 +1,9 @@
 const http = require('../../http.js');
 const httpConfig = require('../../http.config.js');
+const {
+  setRencentPlayList
+} = require('../../utils/util.js')
+
 
 const baseUrl = httpConfig.baseUrl;
 
@@ -48,7 +52,7 @@ Page({
         songList: data.data.result.songs
       })
       wx.hideLoading()
-      
+
     }).catch(err => {
       console.error(err);
       wx.hideLoading()
@@ -58,7 +62,6 @@ Page({
   tapSong(e) {
     const songId = e.detail.songId;
     this.getSongUrl(songId);
-    this.getSongDetail(songId)
   },
   // 获取歌曲播放地址
   getSongUrl(songId) {
@@ -70,9 +73,13 @@ Page({
       g.audio.src = url;
       g.src = url;
       g.playStatus = 'play';
+      g.songId = songId;
       this.setData({
         playStatus: 'play'
       })
+      // 获取歌曲详细信息
+      this.getSongDetail(songId)
+
     }).catch(err => {
       console.error(err);
     })
@@ -90,7 +97,13 @@ Page({
         coverImgUrl,
         title: songName
       })
-      console.log('coverImgUrl:', coverImgUrl)
+      // 将歌曲信息存入 localStorage
+      setRencentPlayList({
+        songId: g.songId,
+        src: g.src,
+        coverImgUrl: g.coverImgUrl,
+        title: g.title
+      })
     }).catch(err => {
       console.error(err);
     })
@@ -119,7 +132,10 @@ Page({
   },
   // 点击搜索按钮
   search() {
-    this.setData({ noSongListTip: false, songList: []})
+    this.setData({
+      noSongListTip: false,
+      songList: []
+    })
     this.getSongList(this.data.searchVal);
   },
   /**

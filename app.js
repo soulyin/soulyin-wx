@@ -16,7 +16,7 @@ App({
     epname: '', // 专辑名
     singer: '', // 歌手名
     coverImgUrl: '', // 封面图
-
+    songId: '', // 歌曲id
     searchVal: '' // 搜索值
   },
 

@@ -1,6 +1,8 @@
 const http = require('../../http.js');
 const httpConfig = require('../../http.config.js');
-
+const {
+  getItem
+} = require('../../utils/util.js')
 const baseUrl = httpConfig.baseUrl;
 
 //index.js
@@ -22,6 +24,7 @@ Page({
         console.log('小程序 session 已过期')
         this.wxLogin();
       }
+
     })
     app.globalData.audio.onError = (errcode) => {
       console.log(errcode)
@@ -32,8 +35,8 @@ Page({
     hasUserInfo: false,
     isAuth: true,
     isAuthModalVisible: true,
-    recentList: ['Give me your love', '大千世界', 'Masked', 'aLiez'],
-    hotList: ['大千世界', 'How You\'ve Been', 'Happier', '答案'],
+    recentList: [],
+    hotList: [],
 
     playStatus: g.playStatus,
     coverImgUrl: g.coverImgUrl,
@@ -50,33 +53,20 @@ Page({
       url: '../My/my',
     })
   },
-  onLoad: function() {
-    // if (app.globalData.userInfo) {
-    //   this.setData({
-    //     userInfo: app.globalData.userInfo,
-    //     hasUserInfo: true
-    //   })
-    // } else if (this.data.canIUse) {
-    //   // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-    //   // 所以此处加入 callback 以防止这种情况
-    //   app.userInfoReadyCallback = res => {
-    //     this.setData({
-    //       userInfo: res.userInfo,
-    //       hasUserInfo: true
-    //     })
-    //   }
-    // } else {
-    //   // 在没有 open-type=getUserInfo 版本的兼容处理
-    //   wx.getUserInfo({
-    //     success: res => {
-    //       app.globalData.userInfo = res.userInfo
-    //       this.setData({
-    //         userInfo: res.userInfo,
-    //         hasUserInfo: true
-    //       })
-    //     }
-    //   })
-    // }
+  onLoad() {
+    this.getRecentList();
+
+  },
+  // 获取最近播放列表
+  getRecentList() {
+    const data = getItem('recentList');
+    if (data) {
+      const list = JSON.parse(data);
+      list.slice(0, 5);
+      this.setData({
+        recentList: list
+      });
+    }
   },
   getUserInfo: function(e) {
     console.log(e)
@@ -204,4 +194,18 @@ Page({
       title: g.title
     })
   },
+  // 播放最近搜索的音乐
+  playRecent(e) {
+    const o = e.target.dataset.songinfo;
+    console.log('o:', o)
+    
+    g.audio.src = o.src;
+    g.coverImgUrl = o.coverImgUrl;
+    g.title = o.title;
+    this.setData({
+      title: o.title,
+      coverImgUrl: o.coverImgUrl,
+      playStatus: 'play'
+    })
+  }
 })

@@ -7,7 +7,7 @@
   <view class='search-relation recent'>
     <text class='title'>最近搜索</text>
     <view class='list'>
-      <text class='song' wx:for="{{ recentList }}">{{item}}</text>
+      <text class='song' wx:for="{{ recentList }}" bindtap='playRecent' data-songinfo='{{item}}' data->{{item.title}}</text>
     </view>
   </view>
 
