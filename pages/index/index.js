@@ -192,12 +192,12 @@ Page({
       playStatus: g.playStatus,
       coverImgUrl: g.coverImgUrl,
       title: g.title
-    })
+    });
+    this.getRecentList();
   },
   // 播放最近搜索的音乐
   playRecent(e) {
     const o = e.target.dataset.songinfo;
-    console.log('o:', o)
     
     g.audio.src = o.src;
     g.coverImgUrl = o.coverImgUrl;
