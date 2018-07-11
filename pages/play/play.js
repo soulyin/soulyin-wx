@@ -9,7 +9,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-    coverImgUrl: '',
+    coverImgUrl: '', // 封面图
+    playMode: '', // 播放模式：single | list | random
+    playStatus: '', // 播放状态
+    isAnimation: false, // 是否有旋转动画
   },
 
   /**
@@ -17,10 +20,19 @@ Page({
    */
   onLoad: function(options) {
     this.setData({
-      coverImgUrl: g.coverImgUrl
+      coverImgUrl: g.coverImgUrl,
+      playStatus: g.playStatus,
+      isAnimation: g.playStatus === 'play' ? true : false
     })
   },
-
+  stop() {
+    g.audio.pause();
+    g.palyStatus = 'stop';
+    this.setData({
+      playStatus: 'stop',
+      isAnimation: false
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

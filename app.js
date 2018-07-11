@@ -17,7 +17,8 @@ App({
     singer: '', // 歌手名
     coverImgUrl: '', // 封面图
     songId: '', // 歌曲id
-    searchVal: '' // 搜索值
+    searchVal: '', // 搜索值
+    playMode: '', // 播放模式
   },
 
 })
