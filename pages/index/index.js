@@ -26,21 +26,36 @@ Page({
       }
 
     })
-    app.globalData.audio.onError = (errcode) => {
-      console.log(errcode)
-    }
+    this.initPlayBarStatus();
   },
   data: {
     userInfo: {},
     hasUserInfo: false,
     isAuth: true,
     isAuthModalVisible: true,
+
     recentList: [],
     hotList: [],
 
     playStatus: g.playStatus,
     coverImgUrl: g.coverImgUrl,
     title: g.title,
+  },
+  // 初始化播放栏状态
+  initPlayBarStatus() {
+    const last = getItem('last');
+    if (last) {
+      const audio = g.audio;
+      this.setData({
+        coverImgUrl: last.coverImgUrl,
+        title: last.title
+      })
+      g.coverImgUrl = last.coverImgUrl;
+      g.songId = last.coverImgUrl;
+      g.title = last.title;
+      g.src = last.src;
+      // audio.src = last.src;
+    }
   },
   //事件处理函数
   bindViewTap: function() {
@@ -59,9 +74,8 @@ Page({
   },
   // 获取最近播放列表
   getRecentList() {
-    const data = getItem('recentList');
-    if (data) {
-      const list = JSON.parse(data);
+    const list = getItem('recentList');
+    if (list) {
       list.slice(0, 5);
       this.setData({
         recentList: list
@@ -165,12 +179,21 @@ Page({
       url: '../my/my'
     })
   },
-  play() {
+  play(e) {
+    console.log('e.detail.src:', e)
+    console.log('g.src:', g)
+    const src = e.detail.src;
     this.setData({
       playStatus: 'play'
     });
+    
     g.playStatus = 'play';
-    g.audio.play();
+    // 当前 src 为空
+    if (!src) {
+      g.audio.src = g.src;
+    } else {
+      g.audio.play();
+    }
   },
   stop() {
     this.setData({
@@ -198,10 +221,13 @@ Page({
   // 播放最近搜索的音乐
   playRecent(e) {
     const o = e.target.dataset.songinfo;
+    const audio = g.audio;
+    audio.src = o.src;
     
-    g.audio.src = o.src;
     g.coverImgUrl = o.coverImgUrl;
     g.title = o.title;
+    g.src = o.src;
+
     this.setData({
       title: o.title,
       coverImgUrl: o.coverImgUrl,

@@ -13,7 +13,7 @@ Component({
       type: String,
       value: '好听的音乐'
     },
-    songUrl: { // 歌曲url
+    src: { // 歌曲url
       type: String
     },
     playStatus: { // 播放状态
@@ -34,7 +34,9 @@ Component({
    */
   methods: {
     play() {
-      this.triggerEvent('play');
+      this.triggerEvent('play', {
+        src: this.data.src
+      });
     },
     stop() {
       this.triggerEvent('stop')

@@ -18,20 +18,19 @@ const getItem = (key) => {
 }
 
 const setRencentPlayList = (o) => {
-  const list = getItem('recentList');
-  let arr = [];
+  let list = getItem('recentList');
   if (list) {
-    arr = JSON.parse(list);
-    arr.some((item, index) => {
+    list.some((item, index) => {
       if (item.songId === o.songId) {
-        return arr.splice(index, 1);
+        return list.splice(index, 1);
       }
     })
-    arr.push(o);
+    list.push(o);
   } else {
-    arr.push(o);
+    list = [];
+    list.push(o);
   }
-  setItem('recentList', JSON.stringify(arr))
+  setItem('recentList', list)
 }
 module.exports = {
   setItem,

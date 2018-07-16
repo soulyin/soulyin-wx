@@ -1,6 +1,6 @@
 <view style='background-image: url("{{ coverImgUrl }}")' class='bg'></view>
-<view class='page-play {{ isAnimation ? "songbg-rotate": "" }}'>
-  <image src='{{coverImgUrl}}' class='song-img'></image>
+<view class='page-play'>
+  <image src='{{coverImgUrl}}' class='song-img {{ isAnimation ? "songbg-rotate": "" }}'></image>
   <view class='top-1'>
     <!--播放模式  -->
     <view class='play-mode' wx:if='{{ playMode === "single" }}'>单曲</view>
