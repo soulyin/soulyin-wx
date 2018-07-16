@@ -58,7 +58,32 @@ App({
 
       // 出错回调
       audio.onError((err) => {
-        console.log('audio onError:', err);
+        const code = err.errCode;
+        let title;
+        switch(code) {
+          case 10001: {
+            title = '系统错误';
+            break;
+          }
+          case 10002: {
+            title: '网络错误';
+            break;
+          }
+          case 10003: {
+            title: '文件错误';
+            break;
+          }
+          case 10004: {
+            title: '格式错误';
+            break;
+          }
+          case -1: {
+            title: '未知错误';
+          }
+        }
+        wx.showToast({
+          title
+        })
       })
     }, 1000)
   },

@@ -1,11 +1,11 @@
 <view style='background-image: url("{{ coverImgUrl }}")' class='bg'></view>
 <view class='page-play'>
-  <image src='{{coverImgUrl}}' class='song-img {{ isAnimation ? "songbg-rotate": "" }}'></image>
+  <image src='{{coverImgUrl}}' class='song-img {{ isAnimation ? "songbg-rotate": "songbg-rotate-stop" }}'></image>
   <view class='top-1'>
     <!--播放模式  -->
-    <view class='play-mode' wx:if='{{ playMode === "single" }}'>单曲</view>
-    <view class='play-mode' wx:elif='{{ playMode === "list" }}'>列表</view>
-    <view class='play-mode' wx:else='{{ playMode === "random" }}'>列表</view>
+    <view class='play-mode' wx:if='{{ playMode === "single" }}' data-mode='single' bindtap='switchPlayMode'>单曲</view>
+    <view class='play-mode' wx:elif='{{ playMode === "list" }}' data-mode='list' bindtap='switchPlayMode'>列表</view>
+    <view class='play-mode' wx:else='{{ playMode === "random" }}' data-mode='random' bindtap='switchPlayMode'>随机</view>
     <!--收藏  -->
     <view class='collection'>
       收藏

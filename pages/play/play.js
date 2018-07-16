@@ -8,7 +8,7 @@ Page({
    */
   data: {
     coverImgUrl: '', // 封面图
-    playMode: '', // 播放模式：single | list | random
+    playMode: 'list', // 播放模式：single | list | random
     playStatus: '', // 播放状态
     isAnimation: false, // 是否有旋转动画
   },
@@ -17,7 +17,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    console.log(g.playStatus)
     this.setData({
       coverImgUrl: g.coverImgUrl,
       playStatus: g.playStatus,
@@ -25,11 +24,43 @@ Page({
     })
   },
   stop() {
-    g.audio.pause();
-    g.palyStatus = 'stop';
+    const audio = g.audio;
+    audio.pause();
+
+    g.playStatus = 'stop';
     this.setData({
       playStatus: 'stop',
       isAnimation: false
+    })
+  },
+  play() {
+    const audio = g.audio;
+    g.playStatus = 'play';
+
+    this.setData({
+      playStatus: 'play',
+      isAnimation: true
+    })
+    if (audio.src) {
+      audio.play();
+    } else {
+      audio.src = g.src;
+    }
+  },
+  // 切换播放模式
+  switchPlayMode(e) {
+    const mode = e.target.dataset.mode;
+    let nextMode;
+    if (mode === 'list') {
+      nextMode = 'random';
+    } else if (mode === 'random') {
+      nextMode = 'single';
+    } else {
+      nextMode = 'list';
+    }
+    g.playMode = nextMode;
+    this.setData({
+      playMode: nextMode
     })
   },
   /**

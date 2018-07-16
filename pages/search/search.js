@@ -1,7 +1,8 @@
 const http = require('../../http.js');
 const httpConfig = require('../../http.config.js');
 const {
-  setRencentPlayList
+  setRencentPlayList,
+  addSongToPlayList
 } = require('../../utils/util.js')
 
 
@@ -103,7 +104,9 @@ Page({
         src: g.src,
         coverImgUrl: g.coverImgUrl,
         title: g.title
-      })
+      });
+      // 加入播放列表
+      
     }).catch(err => {
       console.error(err);
     })

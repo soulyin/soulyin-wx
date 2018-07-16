@@ -40,6 +40,7 @@ Page({
     playStatus: g.playStatus,
     coverImgUrl: g.coverImgUrl,
     title: g.title,
+    src: '',
   },
   // 初始化播放栏状态
   initPlayBarStatus() {
@@ -48,7 +49,8 @@ Page({
       const audio = g.audio;
       this.setData({
         coverImgUrl: last.coverImgUrl,
-        title: last.title
+        title: last.title,
+        src: last.src
       })
       g.coverImgUrl = last.coverImgUrl;
       g.songId = last.coverImgUrl;
@@ -179,20 +181,21 @@ Page({
       url: '../my/my'
     })
   },
-  play(e) {
-    console.log('e.detail.src:', e)
-    console.log('g.src:', g)
-    const src = e.detail.src;
+  play() {
+    // console.log('e.detail.src:', e)
+    // console.log('g.src:', g)
+    // const src = e.detail.src;
+    const audio = g.audio;
     this.setData({
       playStatus: 'play'
     });
     
     g.playStatus = 'play';
     // 当前 src 为空
-    if (!src) {
-      g.audio.src = g.src;
+    if (!audio.src) {
+      audio.src = g.src;
     } else {
-      g.audio.play();
+      audio.play();
     }
   },
   stop() {
@@ -211,6 +214,8 @@ Page({
     })
   },
   onShow: function() {
+    console.log('onShow');
+    console.log(g)
     this.setData({
       playStatus: g.playStatus,
       coverImgUrl: g.coverImgUrl,

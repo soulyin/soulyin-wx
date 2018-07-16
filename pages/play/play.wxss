@@ -34,8 +34,12 @@ page {
 
 .songbg-rotate {
   animation: 30s rotate infinite linear;
+  animation-play-state: running;
 }
-
+.songbg-rotate-stop {
+  animation: 30s rotate infinite linear;
+  animation-play-state: paused;
+}
 @keyframes rotate {
   from {
     transform: rotateZ(0);

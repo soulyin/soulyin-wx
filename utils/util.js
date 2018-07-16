@@ -16,7 +16,7 @@ const getItem = (key) => {
     return false;
   }
 }
-
+// 设置最近播放的歌曲列表
 const setRencentPlayList = (o) => {
   let list = getItem('recentList');
   if (list) {
@@ -32,6 +32,9 @@ const setRencentPlayList = (o) => {
   }
   setItem('recentList', list)
 }
+
+
+
 module.exports = {
   setItem,
   getItem,
