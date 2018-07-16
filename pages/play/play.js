@@ -45,6 +45,7 @@ Page({
       audio.play();
     } else {
       audio.src = g.src;
+      audio.title = 'hello'
     }
   },
   // 切换播放模式

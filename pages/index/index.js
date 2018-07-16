@@ -45,6 +45,7 @@ Page({
   // 初始化播放栏状态
   initPlayBarStatus() {
     const last = getItem('last');
+    console.log('last', last)
     if (last) {
       const audio = g.audio;
       this.setData({
@@ -56,7 +57,6 @@ Page({
       g.songId = last.coverImgUrl;
       g.title = last.title;
       g.src = last.src;
-      // audio.src = last.src;
     }
   },
   //事件处理函数
@@ -193,6 +193,7 @@ Page({
     g.playStatus = 'play';
     // 当前 src 为空
     if (!audio.src) {
+      audio.title = '111'
       audio.src = g.src;
     } else {
       audio.play();
@@ -222,13 +223,16 @@ Page({
       title: g.title
     });
     this.getRecentList();
+    g.audio.title = 'hello'
   },
   // 播放最近搜索的音乐
   playRecent(e) {
     const o = e.target.dataset.songinfo;
     const audio = g.audio;
+
     audio.src = o.src;
-    
+    audio.title = o.title;
+
     g.coverImgUrl = o.coverImgUrl;
     g.title = o.title;
     g.src = o.src;

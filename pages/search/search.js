@@ -70,27 +70,34 @@ Page({
       id: songId
     }).then(data => {
       console.log('url:', data);
-      const url = data.data.data[0].url;
-      g.audio.src = url;
-      g.src = url;
+      const src = data.data.data[0].url;
+
+      g.src = src;
       g.playStatus = 'play';
       g.songId = songId;
       this.setData({
         playStatus: 'play'
       })
       // 获取歌曲详细信息
-      this.getSongDetail(songId)
+      this.getSongDetail(songId, src)
 
     }).catch(err => {
       console.error(err);
     })
   },
   // 获取歌曲详情（封面等...）
-  getSongDetail(songId) {
+  getSongDetail(songId, src) {
     http.get(baseUrl + 'song/detail', {
       ids: songId
     }).then(data => {
+      console.log('data:', data)
       const coverImgUrl = data.data.songs[0].al.picUrl;
+      const epname = data.data.songs[0].al.name;
+      const singers = data.data.songs[0].ar;
+      let singer = '';
+      singers.forEach((item, index) => {
+        index === 0 ? singer += item.name : singer += ' ' + item.name;
+      });
       const songName = data.data.songs[0].name;
       g.coverImgUrl = coverImgUrl;
       g.title = songName;
@@ -98,6 +105,15 @@ Page({
         coverImgUrl,
         title: songName
       })
+
+      const audio = g.audio;
+      audio.src = src;
+      audio.title = songName;
+      audio.epname = epname;
+      audio.singer = singers;
+      audio.coverImgUrl = coverImgUrl;
+      audio.webUrl = '/';
+
       // 将歌曲信息存入 localStorage
       setRencentPlayList({
         songId: g.songId,
@@ -106,7 +122,7 @@ Page({
         title: g.title
       });
       // 加入播放列表
-      
+
     }).catch(err => {
       console.error(err);
     })
@@ -145,14 +161,13 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function() {
-
+    g.audio.title = 'hello'
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    console.log('onShow:', g)
     this.setData({
       playStatus: g.playStatus,
       coverImgUrl: g.coverImgUrl,

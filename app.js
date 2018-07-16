@@ -38,7 +38,7 @@ App({
 
       // 播放进度更新回调
       audio.onTimeUpdate((data) => {
-        console.log('audio onTimeUpdate:', data)
+        // console.log('audio onTimeUpdate:', data)
       })
 
       // 上一首回调（ios）

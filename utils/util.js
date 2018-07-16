@@ -25,11 +25,12 @@ const setRencentPlayList = (o) => {
         return list.splice(index, 1);
       }
     })
-    list.push(o);
+    list.unshift(o);
   } else {
     list = [];
-    list.push(o);
+    list.unshift(o);
   }
+  list = list.slice(0, 5);
   setItem('recentList', list)
 }
 
