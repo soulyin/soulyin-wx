@@ -173,16 +173,13 @@ Page({
 
   // 开始播放
   play() {
-    const {
-      curPlay
-    } = this.data,
+    const curPlay = g.curPlay,
       audio = g.audio;
     curPlay.playStatus = 'play';
 
     // 当前 src 为空（新打开 app 时）
     if (!audio.src) {
-      audio.src = g.curPlay.src;
-      audio.title = g.curPlay.title
+      addSongInfoToObj(audio, curPlay)
     } else {
       audio.play();
     }
@@ -193,11 +190,9 @@ Page({
 
   // 停止播放
   stop() {
-    const {
-      curPlay
-    } = this.data;
-    curPlay.playStatus = 'stop';
     g.audio.pause();
+    const curPlay = g.curPlay;
+    curPlay.playStatus = 'stop';
     this.setData({
       curPlay
     })

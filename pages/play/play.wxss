@@ -75,12 +75,12 @@ page {
 }
 
 .progress-point {
-  width: 20rpx;
-  height: 20rpx;
-  border-radius: 10rpx;
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 20rpx;
   position: absolute;
-  top: -2rpx;
-  left: -10rpx;
+  top: -8rpx;
+  left: 0;
   background: #fff;
 }
 
@@ -88,7 +88,7 @@ page {
   font-size: 24rpx;
   color: #fff;
   position: absolute;
-  top: 18rpx;
+  top: 28rpx;
 }
 
 .total-time {

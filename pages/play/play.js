@@ -1,5 +1,12 @@
+const {
+  addSongInfoToObj,
+} = require('../../utils/util.js')
+
 const app = getApp();
 const g = app.globalData;
+
+let startX, startY;
+
 
 Page({
 
@@ -7,10 +14,16 @@ Page({
    * 页面的初始数据
    */
   data: {
-    coverImgUrl: '', // 封面图
-    playMode: 'list', // 播放模式：single | list | random
-    playStatus: '', // 播放状态
-    isAnimation: false, // 是否有旋转动画
+    // 播放模式：single | list | random
+    playMode: g.playMode,
+
+    // 是否有旋转动画
+    isAnimation: g.curPlay.playStatus === 'play' ? true : false,
+
+    // 当前播放的歌曲信息
+    curPlay: g.curPlay,
+
+    pointLeft: '0rpx'
   },
 
   /**
@@ -18,35 +31,38 @@ Page({
    */
   onLoad: function(options) {
     this.setData({
-      coverImgUrl: g.coverImgUrl,
-      playStatus: g.playStatus,
-      isAnimation: g.playStatus === 'play' ? true : false
+      isAnimation: g.curPlay.playStatus === 'play' ? true : false,
     })
   },
+
+  // 停止播放
   stop() {
     const audio = g.audio;
     audio.pause();
+    const curPlay = g.curPlay;
+    curPlay.playStatus = 'stop';
 
-    g.playStatus = 'stop';
     this.setData({
-      playStatus: 'stop',
+      curPlay,
       isAnimation: false
     })
+    console.log('duration:', audio.duration)
   },
+
+  // 开始播放
   play() {
     const audio = g.audio;
-    g.playStatus = 'play';
-
-    this.setData({
-      playStatus: 'play',
-      isAnimation: true
-    })
-    if (audio.src) {
-      audio.play();
+    const curPlay = g.curPlay;
+    curPlay.playStatus = 'play';
+    if (!audio.src) {
+      addSongInfoToObj(audio, g.curPlay);
     } else {
-      audio.src = g.src;
-      audio.title = 'hello'
+      audio.play();
     }
+    this.setData({
+      isAnimation: true,
+      curPlay
+    })
   },
   // 切换播放模式
   switchPlayMode(e) {
@@ -63,6 +79,17 @@ Page({
     this.setData({
       playMode: nextMode
     })
+  },
+  touchstart(e) {
+    console.log('start e:', e)
+    startX = e.changedTouches[0].pageX;
+    startY = e.changedTouches[0].pageY;
+  },
+  touchmove(e) {
+    console.log('move e:', e)
+  },
+  touchend(e) {
+    console.log('end e:', e)
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

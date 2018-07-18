@@ -1,6 +1,6 @@
-<view style='background-image: url("{{ coverImgUrl }}")' class='bg'></view>
+<view style='background-image: url("{{ curPlay.coverImgUrl }}")' class='bg'></view>
 <view class='page-play'>
-  <image src='{{coverImgUrl}}' class='song-img {{ isAnimation ? "songbg-rotate": "songbg-rotate-stop" }}'></image>
+  <image src='{{curPlay.coverImgUrl}}' class='song-img {{ isAnimation ? "songbg-rotate": "songbg-rotate-stop" }}'></image>
   <view class='top-1'>
     <!--播放模式  -->
     <view class='play-mode' wx:if='{{ playMode === "single" }}' data-mode='single' bindtap='switchPlayMode'>单曲</view>
@@ -14,14 +14,14 @@
   </view>
   <view class='progress-bar'>
     <view class='cur-progress'></view>
-    <view class='progress-point'></view>
+    <view class='progress-point' bindtouchstart='touchstart' bindtouchmove='touchmove' bindtouchend='touchend' style='left: "{{ pointLeft }}"'></view>
     <view class='cur-time'>01:59</view>
     <view class='total-time'>04:40</view>
   </view>
   <view class='op-bar'>
     <view class='iconfont icon-pre'></view>
-    <view wx:if='{{ playStatus === "play" }}' class='iconfont icon-stop' bindtap='stop'></view>
-    <view wx:if='{{ playStatus === "stop" }}' class='iconfont icon-play' bindtap='play'></view>
+    <view wx:if='{{ curPlay.playStatus === "play" }}' class='iconfont icon-stop' bindtap='stop'></view>
+    <view wx:if='{{ curPlay.playStatus === "stop" }}' class='iconfont icon-play' bindtap='play'></view>
     <view class='iconfont icon-next'></view>
   </view>
 </view>
