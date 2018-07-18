@@ -1,14 +1,15 @@
 const http = require('../../http.js');
 const httpConfig = require('../../http.config.js');
 const {
-  getItem
+  getItem,
+  addSongInfoToObj,
 } = require('../../utils/util.js')
 const baseUrl = httpConfig.baseUrl;
 
-//index.js
-//获取应用实例
+// 应用实例
 const app = getApp();
 const g = app.globalData;
+
 
 Page({
   onReady: function(e) {
@@ -24,7 +25,6 @@ Page({
         console.log('小程序 session 已过期')
         this.wxLogin();
       }
-
     })
     this.initPlayBarStatus();
   },
@@ -36,27 +36,17 @@ Page({
 
     recentList: [],
     hotList: [],
-
-    playStatus: g.playStatus,
-    coverImgUrl: g.coverImgUrl,
-    title: g.title,
-    src: '',
+    curPlay: g.curPlay
   },
   // 初始化播放栏状态
   initPlayBarStatus() {
-    const last = getItem('last');
-    console.log('last', last)
-    if (last) {
-      const audio = g.audio;
+    const lastSongInfo = getItem('lastSongInfo');
+    if (lastSongInfo) {
+      lastSongInfo.playStatus = 'stop';
       this.setData({
-        coverImgUrl: last.coverImgUrl,
-        title: last.title,
-        src: last.src
+        curPlay: lastSongInfo
       })
-      g.coverImgUrl = last.coverImgUrl;
-      g.songId = last.coverImgUrl;
-      g.title = last.title;
-      g.src = last.src;
+      addSongInfoToObj(g.curPlay, lastSongInfo);
     }
   },
   //事件处理函数
@@ -72,7 +62,6 @@ Page({
   },
   onLoad() {
     this.getRecentList();
-
   },
   // 获取最近播放列表
   getRecentList() {
@@ -181,30 +170,37 @@ Page({
       url: '../my/my'
     })
   },
+
+  // 开始播放
   play() {
-    // console.log('e.detail.src:', e)
-    // console.log('g.src:', g)
-    // const src = e.detail.src;
-    const audio = g.audio;
-    this.setData({
-      playStatus: 'play'
-    });
-    
-    g.playStatus = 'play';
-    // 当前 src 为空
+    const {
+      curPlay
+    } = this.data,
+      audio = g.audio;
+    curPlay.playStatus = 'play';
+
+    // 当前 src 为空（新打开 app 时）
     if (!audio.src) {
-      audio.title = '111'
-      audio.src = g.src;
+      audio.src = g.curPlay.src;
+      audio.title = g.curPlay.title
     } else {
       audio.play();
     }
-  },
-  stop() {
     this.setData({
-      playStatus: 'stop'
+      curPlay
     });
-    g.playStatus = 'stop';
+  },
+
+  // 停止播放
+  stop() {
+    const {
+      curPlay
+    } = this.data;
+    curPlay.playStatus = 'stop';
     g.audio.pause();
+    this.setData({
+      curPlay
+    })
   },
   bindKeyInput(e) {
     g.searchVal = e.detail.value;
@@ -215,32 +211,20 @@ Page({
     })
   },
   onShow: function() {
-    console.log('onShow');
-    console.log(g)
     this.setData({
-      playStatus: g.playStatus,
-      coverImgUrl: g.coverImgUrl,
-      title: g.title
+      curPlay: g.curPlay
     });
     this.getRecentList();
-    g.audio.title = 'hello'
   },
   // 播放最近搜索的音乐
   playRecent(e) {
-    const o = e.target.dataset.songinfo;
-    const audio = g.audio;
+    const songInfo = e.target.dataset.songinfo;
 
-    audio.src = o.src;
-    audio.title = o.title;
-
-    g.coverImgUrl = o.coverImgUrl;
-    g.title = o.title;
-    g.src = o.src;
+    addSongInfoToObj(g.audio, songInfo);
+    addSongInfoToObj(g.curPlay, songInfo);
 
     this.setData({
-      title: o.title,
-      coverImgUrl: o.coverImgUrl,
-      playStatus: 'play'
+      curPlay: songInfo
     })
   }
 })

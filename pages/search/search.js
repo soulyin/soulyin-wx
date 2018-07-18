@@ -1,8 +1,11 @@
 const http = require('../../http.js');
 const httpConfig = require('../../http.config.js');
 const {
-  setRencentPlayList,
-  addSongToPlayList
+  setItem,
+  setRecentPlayList,
+  addSongToPlayList,
+  addSongInfoToObj,
+  setLastSongInfoToLocalStorage
 } = require('../../utils/util.js')
 
 
@@ -23,6 +26,8 @@ Page({
     coverImgUrl: '', // 封面图地址
     songList: [], // 歌曲列表
     title: g.title, // 歌名
+
+    curPlay: g.curPlay,
 
     noSongListTip: false, // 搜索不到歌曲时显示文本提示
   },
@@ -69,18 +74,9 @@ Page({
     http.get(baseUrl + 'song/music/url', {
       id: songId
     }).then(data => {
-      console.log('url:', data);
       const src = data.data.data[0].url;
-
-      g.src = src;
-      g.playStatus = 'play';
-      g.songId = songId;
-      this.setData({
-        playStatus: 'play'
-      })
       // 获取歌曲详细信息
       this.getSongDetail(songId, src)
-
     }).catch(err => {
       console.error(err);
     })
@@ -105,43 +101,52 @@ Page({
         coverImgUrl,
         title: songName
       })
+      const curPlay = {
+        src,
+        title: songName,
+        epname,
+        singer: singers,
+        coverImgUrl,
+        songId,
+        webUrl: '',
+        playStatus: 'play'
+      }
+      addSongInfoToObj(g.audio, curPlay);
+      addSongInfoToObj(g.curPlay, curPlay);
 
-      const audio = g.audio;
-      audio.src = src;
-      audio.title = songName;
-      audio.epname = epname;
-      audio.singer = singers;
-      audio.coverImgUrl = coverImgUrl;
-      audio.webUrl = '/';
-
+      this.setData({
+        curPlay
+      })
       // 将歌曲信息存入 localStorage
-      setRencentPlayList({
-        songId: g.songId,
-        src: g.src,
-        coverImgUrl: g.coverImgUrl,
-        title: g.title
-      });
+      setRecentPlayList(curPlay);
       // 加入播放列表
+      addSongToPlayList(curPlay)
 
     }).catch(err => {
       console.error(err);
     })
   },
   // 开始播放
-  play(url) {
-    g.audio.play();
+  play() {
+    const audio = g.audio;
+    g.curPlay.playStatus = 'play';
+    if (!audio.src) {
+      addSongInfoToObj(audio, g.curPlay);
+    } else {
+      audio.play();
+    }
     this.setData({
-      playStatus: 'play'
+      curPlay: g.curPlay
     })
-    g.playStatus = 'play';
   },
   // 停止播放
   stop() {
     g.audio.pause();
+    const curPlay = g.curPlay;
+    curPlay.playStatus = 'stop'
     this.setData({
-      playStatus: 'stop'
+      curPlay
     })
-    g.playStatus = 'stop'
   },
   // bindinput
   bindinput(e) {
@@ -161,18 +166,14 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function() {
-    g.audio.title = 'hello'
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    this.setData({
-      playStatus: g.playStatus,
-      coverImgUrl: g.coverImgUrl,
-      title: g.title
-    })
+    
   },
 
   /**

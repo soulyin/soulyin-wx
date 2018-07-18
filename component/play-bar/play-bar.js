@@ -6,19 +6,8 @@ Component({
    * 组件的属性列表
    */
   properties: {
-    coverImgUrl: {// 歌曲图片地址
-      type: String,
-    },
-    title: {// 歌曲名称
-      type: String,
-      value: '好听的音乐'
-    },
-    src: { // 歌曲url
-      type: String
-    },
-    playStatus: { // 播放状态
-      type: String,
-      value: 'stop'
+    curPlay: { // 当前播放歌曲的信息
+      type: Object
     }
   },
 
@@ -35,7 +24,7 @@ Component({
   methods: {
     play() {
       this.triggerEvent('play', {
-        src: this.data.src
+        curPlay: this.data.curPlay
       });
     },
     stop() {

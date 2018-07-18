@@ -3,7 +3,7 @@
   <sy-header selected='搜索' bind:myTap='toMy'></sy-header>
 
   <input type='text' class='input-search' bindinput='bindKeyInput' bindconfirm='toSearch' placeholder='搜索歌曲'></input>
-  <!--最近搜索  -->
+  <!--最近播放  -->
   <view class='search-relation recent'>
     <text class='title'>最近播放</text>
     <view class='list'>
@@ -21,7 +21,7 @@
 
 
   <!--播放栏  -->
-  <sy-play-bar playStatus='{{ playStatus }}' bind:play='play' bind:stop='stop' coverImgUrl='{{ coverImgUrl }}' src='{{ src }}' title='{{ title }}'></sy-play-bar>
+  <sy-play-bar curPlay='{{curPlay}}' bind:play='play' bind:stop='stop'></sy-play-bar>
 
 
 

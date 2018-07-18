@@ -15,4 +15,4 @@
 
 
 <!--播放栏  -->
-<sy-play-bar playStatus='{{ playStatus }}' bind:play='play' bind:stop='stop' coverImgUrl='{{ coverImgUrl }}' title='{{ title }}'></sy-play-bar>
+<sy-play-bar curPlay='{{ curPlay }}' bind:play='play' bind:stop='stop'></sy-play-bar>

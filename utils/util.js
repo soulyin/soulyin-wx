@@ -17,27 +17,69 @@ const getItem = (key) => {
   }
 }
 // 设置最近播放的歌曲列表
-const setRencentPlayList = (o) => {
+const setRecentPlayList = (songInfo) => {
   let list = getItem('recentList');
   if (list) {
     list.some((item, index) => {
-      if (item.songId === o.songId) {
+      if (item.songId === songInfo.songId) {
         return list.splice(index, 1);
       }
     })
-    list.unshift(o);
+    list.unshift(songInfo);
   } else {
     list = [];
-    list.unshift(o);
+    list.unshift(songInfo);
   }
   list = list.slice(0, 5);
   setItem('recentList', list)
 }
 
+// 添加歌曲到播放列表
+const addSongToPlayList = (o) => {
+  let playList = getItem('playList');
+  if (playList) {
+    playList.push(o);
+  } else {
+    playList = [o];
+  }
+  console.log('o:', o)
+  setItem('playList', playList);
+}
 
+// 设置最后一次播放的音乐到 localStorage 中
+const setLastSongInfoToLocalStorage = songInfo => {
+  setItem('lastSongInfo', songInfo)
+}
+
+// 获取播放列表
+const getPlayList = () => {
+  return getItem('playList')
+}
+
+// 从 0~n 获取一个随机正整数
+const getRandomNum = (n) => {
+  return Math.floor(Math.random()*n)
+}
+
+// 给 obj 添加歌曲信息（obj 为 audio 或 g.curPlay 对象）
+const addSongInfoToObj = (obj, songInfo) => {
+  obj.src = songInfo.src;
+  obj.title = songInfo.title;
+  obj.epname = songInfo.epname;
+  obj.singer = songInfo.singer;
+  obj.coverImgUrl = songInfo.coverImgUrl;
+  obj.songId = songInfo.songId;
+  obj.webUrl = songInfo.webUrl;
+  obj.playStatus = songInfo.playStatus;
+}
 
 module.exports = {
   setItem,
   getItem,
-  setRencentPlayList
+  setRecentPlayList,
+  addSongToPlayList,
+  getPlayList,
+  getRandomNum,
+  addSongInfoToObj,
+  setLastSongInfoToLocalStorage
 }

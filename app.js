@@ -1,5 +1,8 @@
 const {
-  setItem
+  setItem,
+  getPlayList,
+  getRandomNum,
+  setLastSongInfoToLocalStorage
 } = require('./utils/util.js')
 
 App({
@@ -16,13 +19,11 @@ App({
 
       // 播放回调
       audio.onPlay(() => {
+        wx.showToast({
+          title: '开始播放',
+        })
         setTimeout(() => {
-          setItem('last', {
-            songId: g.songId,
-            title: g.title,
-            coverImgUrl: g.coverImgUrl,
-            src: g.src
-          })
+          setLastSongInfoToLocalStorage(g.curPlay)
         }, 500)
       })
 
@@ -33,7 +34,63 @@ App({
 
       // 结束回调
       audio.onEnded((data) => {
-        console.log('audio onEnded:', data)
+        switch (g.playMode) {
+          case 'single':
+            {
+              const curPlay = g.curPlay;
+              audio.src = curPlay.src;
+              audio.title = curPlay.title;
+              audio.epname = curPlay.epname;
+              audio.singer = curPlay.singer;
+              audio.coverImgUrl = curPlay.coverImgUrl;
+              audio.songId = curPlay.songId;
+              audio.webUrl = curPlay.webUrl;
+
+              break;
+            }
+          case 'list':
+            {
+              let list = g.playList,
+                curPlay = g.curPlay,
+                nextPlay;
+              list.some((item, index) => {
+                if (item.songId === curPlay.songId) {
+                  if (index === list.length - 1) {
+                    nextPlay = list[0];
+                  } else {
+                    nextPlay = list[index + 1];
+                  }
+                  return true;
+                }
+              });
+
+              audio.src = nextPlay.src;
+              audio.title = nextPlay.title;
+              audio.epname = nextPlay.epname;
+              audio.singer = nextPlay.singer;
+              audio.coverImgUrl = nextPlay.coverImgUrl;
+              audio.songId = nextPlay.songId;
+              audio.webUrl = nextPlay.webUrl;
+
+              g.curPlay = nextPlay;
+              break;
+            }
+          case 'random':
+            {
+              const list = g.playList,
+                n = getRandomNum(),
+                nextPlay = list[n];
+
+              audio.src = nextPlay.src;
+              audio.title = nextPlay.title;
+              audio.epname = nextPlay.epname;
+              audio.singer = nextPlay.singer;
+              audio.coverImgUrl = nextPlay.coverImgUrl;
+              audio.songId = nextPlay.songId;
+              audio.webUrl = nextPlay.webUrl;
+            }
+        }
+
       })
 
       // 播放进度更新回调
@@ -60,32 +117,37 @@ App({
       audio.onError((err) => {
         const code = err.errCode;
         let title;
-        switch(code) {
-          case 10001: {
-            title = '系统错误';
-            break;
-          }
-          case 10002: {
-            title: '网络错误';
-            break;
-          }
-          case 10003: {
-            title: '文件错误';
-            break;
-          }
-          case 10004: {
-            title: '格式错误';
-            break;
-          }
-          case -1: {
-            title: '未知错误';
-          }
+        switch (code) {
+          case 10001:
+            {
+              title = '系统错误';
+              break;
+            }
+          case 10002:
+            {
+              title: '网络错误';
+              break;
+            }
+          case 10003:
+            {
+              title: '文件错误';
+              break;
+            }
+          case 10004:
+            {
+              title: '格式错误';
+              break;
+            }
+          case -1:
+            {
+              title: '未知错误';
+            }
         }
         wx.showToast({
           title
         })
       })
-    }, 1000)
+    }, 500)
   },
   globalData: {
     audio: wx.getBackgroundAudioManager(), // 背景音频对象
@@ -93,9 +155,22 @@ App({
     searchVal: '', // 搜索值
 
     // 音频相关的全局变量
-    playStatus: 'stop', // 音乐播放状态：stop 暂停 | play 播放
     duration: 0, // 当前音频长度（单位：s）
     currentTime: 0, // 当前音频的播放位置（单位：s）
+
+    // 当前播放音乐的信息
+    curPlay: {
+      src: '',
+      title: '好听的音乐',
+      epname: '',
+      singer: '',
+      coverImgUrl: '',
+      songId: '',
+      webUrl: '',
+      playStatus: 'stop'
+    },
+
+    playMode: '', // 播放模式
 
     src: '', // 音频地址
     title: '好听的音乐', // 音频标题
@@ -103,7 +178,8 @@ App({
     singer: '', // 歌手名
     coverImgUrl: '', // 封面图
     songId: '', // 歌曲id
-    playMode: '', // 播放模式
+
+    playList: getPlayList(), // 播放列表
   },
 
 })
